@@ -1,0 +1,292 @@
+/* =========================
+   KISHORE OPINION WEBSITE
+   Modern Responsive Design
+========================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --primary: #00d4ff;
+    --secondary: #8b5cf6;
+    --background: #080d24;
+    --card: rgba(255, 255, 255, 0.08);
+    --text: #ffffff;
+    --muted: #c5c9e8;
+    --border: rgba(255, 255, 255, 0.15);
+    --success: #83ffcb;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    padding: 24px;
+    color: var(--text);
+    background:
+        radial-gradient(circle at top left, #30216b 0, transparent 40%),
+        radial-gradient(circle at bottom right, #003b60 0, transparent 40%),
+        var(--background);
+    background-attachment: fixed;
+    line-height: 1.6;
+}
+
+/* Main container */
+
+.container {
+    width: 100%;
+    max-width: 650px;
+    margin: 40px auto;
+    padding: 35px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 25px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    animation: fadeIn 0.6s ease;
+}
+
+/* Headings */
+
+h1 {
+    color: var(--primary);
+    font-size: clamp(25px, 5vw, 36px);
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 15px;
+    letter-spacing: -0.5px;
+}
+
+h2 {
+    font-size: 21px;
+    text-align: center;
+    margin: 20px 0;
+    color: #e6e7ff;
+}
+
+.subtitle {
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 15px;
+    line-height: 1.9;
+}
+
+/* Form inputs */
+
+input,
+textarea {
+    display: block;
+    width: 100%;
+    padding: 15px 17px;
+    margin: 14px 0;
+    font-family: inherit;
+    font-size: 15px;
+    color: white;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s,
+                background 0.3s;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #b8bedb;
+}
+
+input:focus,
+textarea:focus {
+    border-color: var(--primary);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.12);
+}
+
+textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+/* Buttons */
+
+button {
+    display: block;
+    width: 100%;
+    padding: 14px 20px;
+    margin-top: 14px;
+    border: none;
+    border-radius: 13px;
+    background: linear-gradient(100deg, var(--primary), #8b7bff);
+    color: #081027;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 8px 22px rgba(0, 212, 255, 0.13);
+    transition: transform 0.25s, box-shadow 0.25s,
+                filter 0.25s;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0, 212, 255, 0.22);
+    filter: brightness(1.08);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+button:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 3px;
+}
+
+/* Secondary buttons */
+
+button.secondary {
+    background: rgba(255, 255, 255, 0.07);
+    color: white;
+    border: 1px solid var(--border);
+    box-shadow: none;
+}
+
+button.secondary:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: var(--primary);
+}
+
+/* Hide inactive pages */
+
+.hidden {
+    display: none !important;
+}
+
+/* Messages */
+
+.message {
+    margin-top: 15px;
+    color: var(--success);
+    font-size: 14px;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+.small {
+    margin-top: 18px;
+    color: #aeb8df;
+    font-size: 12px;
+    text-align: center;
+}
+
+/* Admin opinion cards */
+
+#opinionsList {
+    display: grid;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.opinion {
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.06);
+    overflow-wrap: anywhere;
+    animation: fadeIn 0.4s ease;
+}
+
+.opinion strong {
+    color: var(--primary);
+    font-size: 16px;
+}
+
+.opinion p {
+    color: #e0e5ff;
+    font-size: 14px;
+    margin-top: 10px;
+    white-space: pre-wrap;
+    line-height: 1.8;
+}
+
+.opinion .small {
+    text-align: left;
+    margin-top: 5px;
+}
+
+/* Dashboard count */
+
+#totalCount {
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: rgba(139, 92, 246, 0.15);
+}
+
+/* Animations */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile responsive */
+
+@media (max-width: 600px) {
+    body {
+        padding: 12px;
+    }
+
+    .container {
+        margin: 20px auto;
+        padding: 24px 18px;
+        border-radius: 20px;
+    }
+
+    h1 {
+        font-size: 27px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+    }
+
+    input,
+    textarea {
+        font-size: 16px;
+        padding: 14px;
+    }
+
+    button {
+        padding: 14px;
+    }
+}
+
+/* Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

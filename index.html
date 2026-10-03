@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kishore | Opinion Website</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    color: white;
+    background: linear-gradient(135deg, #080d24, #171443, #25205b);
+    padding: 20px;
+}
+
+.container {
+    max-width: 650px;
+    margin: 40px auto;
+    padding: 30px;
+    border: 1px solid #ffffff25;
+    border-radius: 24px;
+    background: #ffffff0d;
+    box-shadow: 0 15px 50px #0004;
+    backdrop-filter: blur(15px);
+}
+
+h1, h2 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+h1 {
+    color: #8be9ff;
+    font-size: 30px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #c5c9e8;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 14px;
+    margin: 10px 0;
+    border-radius: 12px;
+    border: 1px solid #ffffff30;
+    background: #ffffff12;
+    color: white;
+    font-size: 16px;
+    outline: none;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #c2c5dc;
+}
+
+textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    margin-top: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background: linear-gradient(90deg, #00d4ff, #8b7bff);
+    color: #081027;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+.secondary {
+    background: #ffffff18;
+    color: white;
+    border: 1px solid #ffffff30;
+}
+
+.hidden {
+    display: none;
+}
+
+.message {
+    text-align: center;
+    margin-top: 15px;
+    color: #83ffcb;
+    line-height: 1.5;
+}
+
+.opinion {
+    padding: 18px;
+    margin-top: 15px;
+    background: #ffffff10;
+    border: 1px solid #ffffff20;
+    border-radius: 14px;
+    overflow-wrap: anywhere;
+}
+
+.opinion p {
+    margin-top: 8px;
+    color: #e0e5ff;
+    line-height: 1.6;
+}
+
+.small {
+    font-size: 12px;
+    color: #b7c0e6;
+}
+
+@media (max-width: 500px) {
+    body { padding: 10px; }
+    .container { margin: 20px auto; padding: 22px 16px; }
+    h1 { font-size: 25px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN PAGE -->
+<section class="container" id="loginPage">
+    <h1>👋 Welcome!</h1>
+    <p class="subtitle">
+        Kishore's Opinion Website<br>
+        Login செய்து உன் கருத்தைப் பகிரவும்.
+    </p>
+
+    <input id="username" type="text"
+           placeholder="Enter your username">
+
+    <input id="password" type="password"
+           placeholder="Enter password">
+
+    <button onclick="login()">Login 🚀</button>
+
+    <p id="loginMessage" class="message"></p>
+
+    <p class="small" style="text-align:center;margin-top:20px">
+        Demo Login: kishore / 1234
+    </p>
+</section>
+
+<!-- OPINION PAGE -->
+<section class="container hidden" id="opinionPage">
+    <h1>💬 Your Opinion</h1>
+    <p class="subtitle">
+        என்னைப் பற்றி நீ என்ன நினைக்கிறாய்?<br>
+        உன் உண்மையான கருத்தை இங்கே எழுது!
+    </p>
+
+    <form id="opinionForm">
+        <input id="personName" type="text"
+               placeholder="உன் பெயர் (Name)" required>
+
+        <textarea id="opinionText"
+                  placeholder="கிஷோரைப் பற்றி உன் கருத்தை இங்கே எழுது..."
+                  required maxlength="1000"></textarea>
+
+        <button type="submit">Submit Opinion ✨</button>
+    </form>
+
+    <p id="submitMessage" class="message"></p>
+
+    <button class="secondary" onclick="showAdminLogin()">
+        Admin Dashboard
+    </button>
+
+    <button class="secondary" onclick="logout()">
+        Logout
+    </button>
+</section>
+
+<!-- ADMIN LOGIN -->
+<section class="container hidden" id="adminLoginPage">
+    <h1>🔐 Admin Login</h1>
+    <p class="subtitle">கருத்துகளைப் பார்க்க Admin Login செய்.</p>
+
+    <input id="adminUser" placeholder="Admin username">
+    <input id="adminPass" type="password"
+           placeholder="Admin password">
+
+    <button onclick="adminLogin()">Open Dashboard</button>
+    <p id="adminMessage" class="message"></p>
+
+    <button class="secondary" onclick="backToOpinions()">
+        Back
+    </button>
+</section>
+
+<!-- ADMIN DASHBOARD -->
+<section class="container hidden" id="dashboardPage">
+    <h1>📊 Admin Dashboard</h1>
+    <p class="subtitle">Submitted opinions</p>
+
+    <h2 id="totalCount">Total: 0</h2>
+
+    <div id="opinionsList"></div>
+
+    <button class="secondary" onclick="exportOpinions()">
+        Download Opinions (.txt)
+    </button>
+
+    <button class="secondary" onclick="clearOpinions()">
+        Clear All Opinions
+    </button>
+
+    <button class="secondary" onclick="backToOpinions()">
+        Back to Website
+    </button>
+</section>
+
+<script>
+const $ = id => document.getElementById(id);
+
+function showPage(pageId) {
+    document.querySelectorAll("body > section").forEach(section => {
+        section.classList.add("hidden");
+    });
+    $(pageId).classList.remove("hidden");
+}
+
+// DEMO LOGIN ONLY — NOT SECURE FOR A PUBLIC WEBSITE
+function login() {
+    const user = $("username").value.trim();
+    const pass = $("password").value;
+
+    if (user === "kishore" && pass === "1234") {
+        sessionStorage.setItem("loggedIn", "yes");
+        showPage("opinionPage");
+    } else {
+        $("loginMessage").textContent =
+            "Username அல்லது Password தவறு!";
+    }
+}
+
+function logout() {
+    sessionStorage.removeItem("loggedIn");
+    showPage("loginPage");
+}
+
+function showAdminLogin() {
+    $("adminMessage").textContent = "";
+    showPage("adminLoginPage");
+}
+
+function adminLogin() {
+    // Demo credentials only. Not secure for real deployment.
+    if ($("adminUser").value === "admin" &&
+        $("adminPass").value === "admin123") {
+        sessionStorage.setItem("adminLoggedIn", "yes");
+        renderOpinions();
+        showPage("dashboardPage");
+    } else {
+        $("adminMessage").textContent =
+            "Admin username அல்லது password தவறு!";
+    }
+}
+
+function getOpinions() {
+    try {
+        return JSON.parse(localStorage.getItem("opinions") || "[]");
+    } catch {
+        return [];
+    }
+}
+
+$("opinionForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    if (sessionStorage.getItem("loggedIn") !== "yes") {
+        showPage("loginPage");
+        return;
+    }
+
+    const name = $("personName").value.trim();
+    const opinion = $("opinionText").value.trim();
+
+    if (!name || !opinion) return;
+
+    const opinions = getOpinions();
+
+    opinions.push({
+        name: name,
+        opinion: opinion,
+        date: new Date().toLocaleString()
+    });
+
+    localStorage.setItem("opinions", JSON.stringify(opinions));
+
+    $("opinionForm").reset();
+    $("submitMessage").textContent =
+        "உன் கருத்து இந்த Browser-ல் சேமிக்கப்பட்டது! ✅";
+});
+
+function renderOpinions() {
+    const opinions = getOpinions();
+
+    $("totalCount").textContent =
+        "Total Opinions: " + opinions.length;
+
+    const list = $("opinionsList");
+    list.replaceChildren();
+
+    if (opinions.length === 0) {
+        list.textContent = "இன்னும் கருத்துகள் எதுவும் இல்லை.";
+        return;
+    }
+
+    opinions.slice().reverse().forEach(item => {
+        const card = document.createElement("div");
+        card.className = "opinion";
+
+        const name = document.createElement("strong");
+        name.textContent = "👤 " + item.name;
+
+        const date = document.createElement("div");
+        date.className = "small";
+        date.textContent = item.date;
+
+        const text = document.createElement("p");
+        text.textContent = item.opinion;
+
+        card.append(name, date, text);
+        list.appendChild(card);
+    });
+}
+
+function exportOpinions() {
+    const opinions = getOpinions();
+
+    const content = opinions.map((item, i) =>
+        `${i + 1}. ${item.name}\n${item.date}\n${item.opinion}`
+    ).join("\n\n--------------------\n\n");
+
+    const blob = new Blob([content || "No opinions yet."],
+        { type: "text/plain;charset=utf-8" });
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "kishore-opinions.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function clearOpinions() {
+    if (confirm("எல்லா கருத்துகளையும் அழிக்க வேண்டுமா?")) {
+        localStorage.removeItem("opinions");
+        renderOpinions();
+    }
+}
+
+function backToOpinions() {
+    if (sessionStorage.getItem("loggedIn") === "yes") {
+        showPage("opinionPage");
+    } else {
+        showPage("loginPage");
+    }
+}
+</script>
+
+</body>
+</html>
